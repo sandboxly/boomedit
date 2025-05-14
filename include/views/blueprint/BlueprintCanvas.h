@@ -1,14 +1,19 @@
-#ifndef BLUEPRINTVIEW_H
-#define BLUEPRINTVIEW_H
+#ifndef BLUEPRINTCANVAS_H
+#define BLUEPRINTCANVAS_H
 
+#include <memory>
 #include <QWidget>
 #include <QVector2D>
-#include "include/AppState.h"
+#include "BlueprintModel.h"
+#include "BlueprintCanvasController.h"
+#include "BlueprintCanvasRenderer.h"
 
-class BlueprintView : public QWidget {
+class BlueprintCanvas : public QWidget {
     Q_OBJECT
 public:
-    explicit BlueprintView(AppState &appState, QWidget *parent = nullptr);
+    explicit BlueprintCanvas(BlueprintModel& model, QWidget* parent = nullptr);
+
+    BlueprintModel model() const;
 
     QVector2D viewportCenter() const;
     void setViewportCenter(const QVector2D &center);
@@ -30,22 +35,14 @@ protected:
 
 private:
     // private fields
-    AppState &m_appState;
+    BlueprintModel& m_model;
+    std::unique_ptr<BlueprintCanvasController> m_controller;
+    std::unique_ptr<BlueprintCanvasRenderer> m_renderer;
     QVector2D m_viewportCenter {0.0f, 0.0f};
     float m_zoomLevel {25.0};
     float m_gridResolution {1.0f};
-    float m_wheelDeltaAccumulator = 0.0f;
-    bool m_isPanning = false;
-    bool m_spaceHeld = false;
-    QPoint m_lastMousePos;
-
-    // private methods
-    QPointF worldToScreen(const QVector2D& world, const QSize& widgetSize) const;
-    void drawGrid(QPainter &painter);
-    void drawWalls(QPainter &painter);
-    void drawCorners(QPainter &painter);
 };
 
 
 
-#endif // BLUEPRINTVIEW_H
+#endif // BLUEPRINTCANVAS_H

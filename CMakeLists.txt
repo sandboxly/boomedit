@@ -23,8 +23,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(BoomEdit
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        BlueprintView.h
-        BlueprintView.h BlueprintView.cpp
+        include/views/blueprint/BlueprintCanvas.h
+        include/views/blueprint/BlueprintCanvas.h src/views/blueprint/BlueprintCanvas.cpp
         PerspectiveView.h
         PerspectiveView.h PerspectiveView.cpp
         include/models/Vertex.h
@@ -33,6 +33,17 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         include/models/Level.h
         include/AppState.h
         include/AppState.h AppState.cpp
+        include/views/blueprint/BlueprintCanvasController.h
+        include/views/blueprint/BlueprintCanvasController.h src/views/blueprint/BlueprintCanvasController.cpp
+        include/views/blueprint/BlueprintModel.h src/views/blueprint/BlueprintModel.cpp
+        include/views/blueprint/BlueprintCanvasRenderer.h src/views/blueprint/BlueprintCanvasRenderer.cpp
+        include/views/blueprint/BlueprintView.h src/views/blueprint/BlueprintView.cpp
+        src/views/blueprint/BlueprintView.cpp
+        include/views/blueprint/BlueprintToolBar.h
+        src/views/blueprint/BlueprintToolBar.cpp
+        include/views/blueprint/BlueprintInspector.h
+        src/views/blueprint/BlueprintInspector.cpp
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET BoomEdit APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -78,3 +89,7 @@ install(TARGETS BoomEdit
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(BoomEdit)
 endif()
+
+target_include_directories(BoomEdit PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+)

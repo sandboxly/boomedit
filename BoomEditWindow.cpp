@@ -1,7 +1,8 @@
 #include "BoomEditWindow.h"
-#include "ui_BoomEditWindow.h"
-#include "include/AppState.h"
-#include "BlueprintView.h"
+#include "ui_boomeditwindow.h"
+#include "AppState.h"
+#include "views/blueprint/BlueprintView.h"
+#include "ui_boomeditwindow.h"
 
 #include <QAction>
 #include <QActionGroup>
@@ -17,7 +18,8 @@ BoomEditWindow::BoomEditWindow(AppState *appState, QWidget *parent)
     ui->setupUi(this);
 
     // Use BlueprintView instead of dummy
-    blueprintView = new BlueprintView(*appState, this);
+    BlueprintModel *blueprintCanvasModel = new BlueprintModel(appState->currentLevel());
+    blueprintView = new BlueprintView(blueprintCanvasModel, this);
 
     // Keep dummy for perspective for now
     perspectiveView = new QWidget(this);
