@@ -7,6 +7,7 @@
 #include "BlueprintModel.h"
 #include "BlueprintCanvasController.h"
 #include "BlueprintCanvasRenderer.h"
+#include "IEditTool.h"
 
 class BlueprintCanvas : public QWidget {
     Q_OBJECT
@@ -23,6 +24,14 @@ public:
 
     float gridResolution() const;
     void setGridResolution(const float resolution);
+
+    IEditTool* activeTool() const;
+    void setActiveTool(IEditTool* tool);
+
+    QPointF screenToWorld(const QPointF& screen);
+    QPointF worldToScreen(const QPointF& world);
+
+    void cycleGridResolution();
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -41,6 +50,7 @@ private:
     QVector2D m_viewportCenter {0.0f, 0.0f};
     float m_zoomLevel {25.0};
     float m_gridResolution {1.0f};
+    IEditTool* m_activeTool;
 };
 
 

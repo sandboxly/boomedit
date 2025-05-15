@@ -43,6 +43,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/views/blueprint/BlueprintToolBar.cpp
         include/views/blueprint/BlueprintInspector.h
         src/views/blueprint/BlueprintInspector.cpp
+        include/IEditTool.h
+        include/edittools/RectangleTool.h
+        include/edittools/SelectTool.h
+        include/edittools/PanTool.h
 
     )
 # Define target properties for Android with Qt 6 as:

@@ -53,34 +53,92 @@ void BlueprintCanvas::paintEvent(QPaintEvent *event) {
     painter.fillRect(rect(), blueprintBlue);
 
     m_renderer->draw(painter);
+
+    m_activeTool->paintOverlay(painter);
 }
 
 void BlueprintCanvas::keyPressEvent(QKeyEvent *event)
 {
-    m_controller->keyPressEvent(event);
+    m_activeTool->keyPressEvent(event);
+    // m_controller->keyPressEvent(event);
 }
 
 void BlueprintCanvas::keyReleaseEvent(QKeyEvent *event)
 {
-    m_controller->keyReleaseEvent(event);
+    m_activeTool->keyReleaseEvent(event);
+    // m_controller->keyReleaseEvent(event);
 }
 
 void BlueprintCanvas::mousePressEvent(QMouseEvent *event)
 {
-    m_controller->mousePressEvent(event);
+    m_activeTool->mousePressEvent(event);
+    // m_controller->mousePressEvent(event);
 }
 
 void BlueprintCanvas::mouseMoveEvent(QMouseEvent *event)
 {
-    m_controller->mouseMoveEvent(event);
+    m_activeTool->mouseMoveEvent(event);
+    // m_controller->mouseMoveEvent(event);
 }
 
 void BlueprintCanvas::mouseReleaseEvent(QMouseEvent *event)
 {
-    m_controller->mouseReleaseEvent(event);
+    m_activeTool->mouseReleaseEvent(event);
+    // m_controller->mouseReleaseEvent(event);
 }
 
 void BlueprintCanvas::wheelEvent(QWheelEvent *event)
 {
     m_controller->wheelEvent(event);
+}
+
+
+IEditTool* BlueprintCanvas::activeTool() const {
+    return m_activeTool;
+}
+
+void BlueprintCanvas::setActiveTool(IEditTool* tool) {
+    if (tool && (!m_activeTool || tool != m_activeTool)) {
+        m_activeTool = tool;
+        update();
+    }
+}
+
+QPointF BlueprintCanvas::screenToWorld(const QPointF& screen) {
+    // Translate screen coords so that (0,0) is at widget center
+    const float halfW = width()  * 0.5f;
+    const float halfH = height() * 0.5f;
+
+    // Undo the center translation
+    float dx = screen.x() - halfW;
+    float dy = screen.y() - halfH;
+
+    // Undo the zoom scaling (and flip Y back)
+    float worldX = dx / m_zoomLevel + m_viewportCenter.x();
+    float worldY = -dy / m_zoomLevel + m_viewportCenter.y();
+
+    return { worldX, worldY };
+}
+
+QPointF BlueprintCanvas::worldToScreen(const QPointF& world) {
+    // Calculate offset from viewport center
+    QPointF offset = {world.x() - m_viewportCenter.x(), world.y() - m_viewportCenter.y()};
+
+    // Apply zoom (world units to pixels)
+    QPointF scaled(offset.x() * m_zoomLevel, -offset.y() * m_zoomLevel); // Y-axis flipped
+
+    // Translate to screen center
+    return QPointF(size().width() * .5, size().height() *.5) + scaled;
+}
+
+void BlueprintCanvas::cycleGridResolution() {
+    static const std::array<float, 6> gridResolutions = {0.0f, 0.25f, 0.5f, 1.0f, 2.0f, 4.0f};
+
+    // Find the current index in the list
+    auto it = std::find(gridResolutions.begin(), gridResolutions.end(), m_gridResolution);
+    size_t index = (it != gridResolutions.end()) ? std::distance(gridResolutions.begin(), it) : 0;
+
+    // Cycle to the next index
+    m_gridResolution = gridResolutions[(index + 1) % gridResolutions.size()];
+    update(); // trigger repaint
 }

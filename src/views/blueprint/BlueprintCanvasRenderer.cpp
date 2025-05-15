@@ -82,7 +82,7 @@ void BlueprintCanvasRenderer::drawWalls(QPainter &painter) {
 
         sectorPath = QPainterPath();
         const auto& firstWall = sector->walls.front();
-        QPointF firstPoint = worldToScreen({firstWall->startVertex->x, firstWall->startVertex->y},m_canvas->size());
+        QPointF firstPoint = worldToScreen({firstWall->startVertex->x, firstWall->startVertex->y}, m_canvas->size());
         sectorPath.moveTo(firstPoint);
 
         for (const auto& wall : sector->walls) {

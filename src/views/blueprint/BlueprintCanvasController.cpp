@@ -3,9 +3,9 @@
 #include "../../../include/views/blueprint/BlueprintCanvas.h"
 #include "../../../include/views/blueprint/BlueprintCanvasController.h"
 
-BlueprintCanvasController::BlueprintCanvasController(BlueprintCanvas *canvas) : m_canvas(canvas) {}
+BlueprintCanvasController::BlueprintCanvasController(BlueprintCanvas* canvas) : m_canvas(canvas) {}
 
-void BlueprintCanvasController::keyPressEvent(QKeyEvent *event) {
+void BlueprintCanvasController::keyPressEvent(QKeyEvent* event) {
     if (event->key() == Qt::Key_Space && !m_spaceHeld) {
         m_spaceHeld = true;
         m_canvas->setCursor(Qt::OpenHandCursor);
@@ -23,7 +23,7 @@ void BlueprintCanvasController::keyPressEvent(QKeyEvent *event) {
     }
 }
 
-void BlueprintCanvasController::keyReleaseEvent(QKeyEvent *event) {
+void BlueprintCanvasController::keyReleaseEvent(QKeyEvent* event) {
     if (event->key() == Qt::Key_Space) {
         m_spaceHeld = false;
         if (!m_isPanning) {
@@ -32,7 +32,7 @@ void BlueprintCanvasController::keyReleaseEvent(QKeyEvent *event) {
     }
 }
 
-void BlueprintCanvasController::mousePressEvent(QMouseEvent *event)
+void BlueprintCanvasController::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton && m_spaceHeld) {
         m_isPanning = true;
@@ -41,7 +41,7 @@ void BlueprintCanvasController::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void BlueprintCanvasController::mouseMoveEvent(QMouseEvent *event)
+void BlueprintCanvasController::mouseMoveEvent(QMouseEvent* event)
 {
     if (m_isPanning) {
         QPoint delta = event->pos() - m_lastMousePos;
@@ -55,7 +55,7 @@ void BlueprintCanvasController::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
-void BlueprintCanvasController::mouseReleaseEvent(QMouseEvent *event)
+void BlueprintCanvasController::mouseReleaseEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton && m_isPanning) {
         m_isPanning = false;
@@ -66,7 +66,7 @@ void BlueprintCanvasController::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
-void BlueprintCanvasController::wheelEvent(QWheelEvent *event)
+void BlueprintCanvasController::wheelEvent(QWheelEvent* event)
 {
     constexpr float minZoom = 1.0f;
     constexpr float maxZoom = 100.0f;

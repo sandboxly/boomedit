@@ -7,14 +7,8 @@
 class BlueprintToolBar : public QWidget {
     Q_OBJECT
 public:
-    explicit BlueprintToolBar(QWidget *parent);
-private:
-    QToolButton m_toolSelect;
-    QToolButton m_toolPan;
-    QToolButton m_toolButtonZoom;
-    QToolButton m_toolButtonDrawRectangle;
-    QToolButton m_toolButtonDrawPolygon;
-    QToolButton m_toolButtonDrawPolygonPath;
+    explicit BlueprintToolBar(QWidget* parent);
+    void setActions(const QList<QAction*>& actions);
 };
 
 #endif // BLUEPRINTTOOLBAR_H
