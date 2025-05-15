@@ -2,6 +2,7 @@
 #include "include/AppState.h"
 
 #include <QApplication>
+#include <QFile>
 
 std::shared_ptr<Level> createInitialLevel() {
     auto level = std::make_shared<Level>();
@@ -81,6 +82,12 @@ std::shared_ptr<Level> createInitialLevel() {
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    QFile f(":/styles/assets/styles/boom.qss");
+    if (f.open(QFile::ReadOnly)) {
+        QString style = QLatin1String(f.readAll());
+        a.setStyleSheet(style);
+    }
 
     auto initialLevel = createInitialLevel();
     auto *appState = new AppState(initialLevel, &a);

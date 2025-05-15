@@ -1,0 +1,28 @@
+/* styles.qss */
+
+QToolButton, QPushButton {
+    /* 1) Flat solid background, no native bevel/gloss */
+    background-color: #cccccc;    /* dark slate */
+    border: 0px solid #acacac;    /* slightly lighter border */
+    border-radius: 6px;           /* rounded corners */
+    padding: 4px;                 /* inner padding */
+    margin: 2px;
+    color: #202020;               /* text/icon color */
+}
+
+/* 2) Hover state: lighten background */
+QToolButton:hover, QPushButton:hover {
+    background-color: #eeeeee;    /* hover color */
+}
+
+/* 3) Pressed (checked) state: darker fill */
+QToolButton:pressed, QPushButton:pressed,
+QToolButton:checked, QPushButton:checked {
+    background-color: #8c8c8c;    /* pressed color */
+}
+
+/* 4) Disabled state: greyed out */
+QToolButton:disabled, QPushButton:disabled {
+    background-color: #4C566A;    /* disabled fill */
+    color: #8FBCBB;               /* disabled icon/text */
+}

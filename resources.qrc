@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>assets/icons/tool_pan.png</file>
+        <file>assets/icons/tool_select.png</file>
+        <file>assets/icons/tool_path.png</file>
+        <file>assets/icons/tool_polygon.png</file>
+        <file>assets/icons/tool_rect.png</file>
+    </qresource>
+    <qresource prefix="/styles">
+        <file>assets/styles/boom.qss</file>
+    </qresource>
+</RCC>

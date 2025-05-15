@@ -47,6 +47,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         include/edittools/RectangleTool.h
         include/edittools/SelectTool.h
         include/edittools/PanTool.h
+        resources.qrc
+        assets/styles/boom.qss
 
     )
 # Define target properties for Android with Qt 6 as:

@@ -13,6 +13,11 @@ public:
         BlueprintCanvas* canvas,
         QObject* parent = nullptr
         ) : IEditTool(parent), m_canvas(canvas){}
+
+    void onActivate() override {
+        m_canvas->setCursor(Qt::CrossCursor);
+    }
+    void onDeactivate() override {}
     void mousePressEvent(QMouseEvent* event) override {}
     void mouseReleaseEvent(QMouseEvent* event) override {}
     void mouseMoveEvent(QMouseEvent* event) override {}

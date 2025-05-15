@@ -14,13 +14,13 @@ BlueprintView::BlueprintView(BlueprintModel* model, QWidget* parent)
     m_inspector(std::make_unique<BlueprintInspector>(this))
 {
     // Set up tool actions
-    m_actSelect = new QAction(tr("Select"), this);
+    m_actSelect = new QAction(QIcon(":/icons/assets/icons/tool_select.png"), tr("Select"), this);
     m_actSelect->setShortcut(QKeySequence(Qt::Key_S));
 
-    m_actPan = new QAction(tr("Pan"), this);
+    m_actPan = new QAction(QIcon(":/icons/assets/icons/tool_pan.png"), tr("Pan"),  this);
     m_actPan->setShortcut(QKeySequence(Qt::Key_P));
 
-    m_actRectangle = new QAction(tr("Rectangle"), this);
+    m_actRectangle = new QAction(QIcon(":/icons/assets/icons/tool_rect.png"), tr("Rectangle"), this);
     m_actRectangle->setShortcut(QKeySequence(Qt::Key_R));
 
     m_toolActionGroup = new QActionGroup(this);
@@ -42,7 +42,7 @@ BlueprintView::BlueprintView(BlueprintModel* model, QWidget* parent)
     m_actToggleSnapToGrid = new QAction(tr("Snap to Grid"), this);
     m_actToggleSnapToGrid->setCheckable(true);
     m_actToggleSnapToGrid->setChecked(true);
-    m_actToggleSnapToGrid->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_G));
+    m_actToggleSnapToGrid->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_G));
 
     connect(m_actToggleSnapToGrid,  &QAction::toggled,
             this,                   &BlueprintView::onToggleSnapToGrid);
@@ -70,6 +70,7 @@ BlueprintView::BlueprintView(BlueprintModel* model, QWidget* parent)
     // Layout with toolbar and splitter
     auto* layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
     layout->addWidget(m_toolBar.get());
     layout->addWidget(splitter);
     setLayout(layout);
@@ -84,19 +85,19 @@ BlueprintView::BlueprintView(BlueprintModel* model, QWidget* parent)
 
 void BlueprintView::onToolTriggered(QAction* act) {
     if (act == m_actSelect) {
-        m_canvas->setActiveTool(
-            new SelectTool(m_canvas.get(), this)
-        );
+        SelectTool* tool = new SelectTool(m_canvas.get(), this);
+        tool->onActivate();
+        m_canvas->setActiveTool(tool);
     }
     else if (act == m_actPan) {
-        m_canvas->setActiveTool(
-            new PanTool(m_canvas.get(), this)
-        );
+        PanTool* tool = new PanTool(m_canvas.get(), this);
+        tool->onActivate();
+        m_canvas->setActiveTool(tool);
     }
     else if (act == m_actRectangle) {
-        m_canvas->setActiveTool(
-            new RectangleTool(m_canvas.get(), this)
-        );
+        RectangleTool* tool = new RectangleTool(m_canvas.get(), this);
+        tool->onActivate();
+        m_canvas->setActiveTool(tool);
     }
 }
 

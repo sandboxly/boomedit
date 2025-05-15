@@ -17,6 +17,12 @@ public:
         m_canvas(canvas)
     {}
 
+    void onActivate() override {
+        m_canvas->setCursor(Qt::CrossCursor);
+    }
+
+    void onDeactivate() override {}
+
     // ──────── mouse down ────────
     void mousePressEvent(QMouseEvent* event) override {
         if (event->button() == Qt::LeftButton) {
@@ -82,7 +88,7 @@ public:
     // ──────── overlay paint ────────
     void paintOverlay(QPainter& p) override {
         if (!m_drawing) return;
-        p.setPen(QPen(Qt::yellow,1,Qt::DashLine));
+        p.setPen(QPen(Qt::yellow,2,Qt::DashLine));
         QPointF tl = m_canvas->worldToScreen(m_rect.topLeft());
         QPointF br = m_canvas->worldToScreen(m_rect.bottomRight());
         p.drawRect(QRectF(tl, br).normalized());
