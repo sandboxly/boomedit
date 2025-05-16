@@ -7,26 +7,23 @@
 BlueprintCanvasController::BlueprintCanvasController(BlueprintCanvas* canvas)
     : QObject(canvas),
     m_canvas(canvas),
-    m_previousTool(canvas->activeTool()) {}
+    m_previousToolType(canvas->activeTool()->type()) {}
 
 
 void BlueprintCanvasController::keyPressEvent(QKeyEvent* event) {
     if (!event->isAutoRepeat() && event->key() == Qt::Key_Space && !m_spaceHeld) {
         m_spaceHeld = true;
-        m_previousTool = m_canvas->activeTool();
-        PanTool* tool = new PanTool(m_canvas, this);
+        m_previousToolType = m_canvas->activeTool()->type();
+        PanTool* tool = new PanTool(m_canvas);
         tool->onActivate();
-        m_canvas->setActiveTool(tool);
+        m_canvas->setActiveTool(EditToolType::Pan);
     }
 }
 
 void BlueprintCanvasController::keyReleaseEvent(QKeyEvent* event) {
     if (!event->isAutoRepeat() && event->key() == Qt::Key_Space && m_spaceHeld) {
         m_spaceHeld = false;
-        if (m_previousTool) {
-            m_previousTool->onActivate();
-            m_canvas->setActiveTool(m_previousTool);
-        }
+        m_canvas->setActiveTool(m_previousToolType);
     }
 }
 
@@ -51,3 +48,5 @@ void BlueprintCanvasController::wheelEvent(QWheelEvent* event)
 void BlueprintCanvasController::mousePressEvent(QMouseEvent *event) {}
 void BlueprintCanvasController::mouseMoveEvent(QMouseEvent *event) {}
 void BlueprintCanvasController::mouseReleaseEvent(QMouseEvent *event) {}
+
+

@@ -61,7 +61,7 @@ void BlueprintCanvasRenderer::drawWalls(QPainter &painter) {
     if (!level) return;
 
     for (const auto &sector : level->sectors) {
-        for (const auto &wall : sector->walls) {
+        for (const auto &wall : sector->around()) {
             QPointF p1 = worldToScreen({wall->startVertex->x, wall->startVertex->y}, m_canvas->size());
             QPointF p2 = worldToScreen({wall->endVertex->x, wall->endVertex->y}, m_canvas->size());
 
@@ -78,14 +78,14 @@ void BlueprintCanvasRenderer::drawWalls(QPainter &painter) {
     // Fill sector with 25% opacity white
     QPainterPath sectorPath;
     for (const auto& sector : level->sectors) {
-        if (sector->walls.empty()) continue;
+        if (sector->walls_.empty()) continue;
 
         sectorPath = QPainterPath();
-        const auto& firstWall = sector->walls.front();
+        const auto& firstWall = sector->anyWall;
         QPointF firstPoint = worldToScreen({firstWall->startVertex->x, firstWall->startVertex->y}, m_canvas->size());
         sectorPath.moveTo(firstPoint);
 
-        for (const auto& wall : sector->walls) {
+        for (const auto& wall : sector->around()) {
             QPointF point = worldToScreen({wall->endVertex->x, wall->endVertex->y}, m_canvas->size());
             sectorPath.lineTo(point);
         }
@@ -108,7 +108,7 @@ void BlueprintCanvasRenderer::drawCorners(QPainter &painter) {
     painter.setBrush(Qt::NoBrush);
 
     for (const auto& sector : level->sectors) {
-        for (const auto& wall : sector->walls) {
+        for (const auto& wall : sector->around()) {
             for (const auto& vertex : {wall->startVertex, wall->endVertex}) {
                 QPointF screenPt = worldToScreen({vertex->x, vertex->y}, m_canvas->size());
                 QRectF rect(screenPt.x() - sizePx / 2, screenPt.y() - sizePx / 2, sizePx, sizePx);

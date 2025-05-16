@@ -1,8 +1,6 @@
 #ifndef PANTOOL_H
 #define PANTOOL_H
 
-#pragma once
-
 #include "IEditTool.h"
 #include "views/blueprint/BlueprintCanvas.h"
 
@@ -10,9 +8,10 @@ class PanTool : public IEditTool {
     Q_OBJECT
 public:
     explicit PanTool(
-        BlueprintCanvas* canvas,
-        QObject* parent = nullptr
-        ) : IEditTool(parent), m_canvas(canvas) {}
+        BlueprintCanvas* canvas
+        ) : IEditTool(canvas), m_canvas(canvas) {}
+
+    EditToolType type() override { return EditToolType::Pan; }
 
     void onActivate() override {
         m_canvas->setCursor(Qt::OpenHandCursor);

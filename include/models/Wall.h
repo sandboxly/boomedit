@@ -4,22 +4,27 @@
 #include <memory>
 #include "Vertex.h"
 
-class Sector; // Forward declaration
+struct Sector;  // forward
 
 struct Wall {
     std::shared_ptr<Vertex> startVertex;
     std::shared_ptr<Vertex> endVertex;
-    bool isPortal;
-    std::weak_ptr<Sector> nextSector;
+    bool                    isPortal    = false;
+    std::weak_ptr<Sector>   nextSector;  // for portals
 
-    Wall(std::shared_ptr<Vertex> start,
-         std::shared_ptr<Vertex> end,
+    // intrusive doubly-linked ring pointers
+    Wall* prev = nullptr;
+    Wall* next = nullptr;
+
+    Wall(std::shared_ptr<Vertex> s,
+         std::shared_ptr<Vertex> e,
          bool portal = false,
-         std::weak_ptr<Sector> next = {})
-        : startVertex(std::move(start)),
-        endVertex(std::move(end)),
-        isPortal(portal),
-        nextSector(std::move(next)) {}
+         std::weak_ptr<Sector> nextSec = {})
+        : startVertex(std::move(s))
+        , endVertex(std::move(e))
+        , isPortal(portal)
+        , nextSector(std::move(nextSec))
+    {}
 };
 
 #endif // WALL_H

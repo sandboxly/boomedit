@@ -4,10 +4,15 @@
 #include <memory>
 #include <QWidget>
 #include <QVector2D>
+#include <QRectF>
 #include "BlueprintModel.h"
 #include "BlueprintCanvasController.h"
 #include "BlueprintCanvasRenderer.h"
 #include "IEditTool.h"
+
+class PanTool;
+class RectangleTool;
+class SelectTool;
 
 class BlueprintCanvas : public QWidget {
     Q_OBJECT
@@ -26,7 +31,7 @@ public:
     void setGridResolution(const float resolution);
 
     IEditTool* activeTool() const;
-    void setActiveTool(IEditTool* tool);
+    void setActiveTool(EditToolType toolType);
 
     QPointF screenToWorld(const QPointF& screen);
     QPointF worldToScreen(const QPointF& world);
@@ -50,7 +55,13 @@ private:
     QVector2D m_viewportCenter {0.0f, 0.0f};
     float m_zoomLevel {25.0};
     float m_gridResolution {1.0f};
+
     IEditTool* m_activeTool;
+    SelectTool* m_selectTool;
+    PanTool* m_panTool;
+    RectangleTool* m_rectangleTool;
+private Q_SLOTS:
+    void onRectangleCreated(const QRectF& worldRect);
 };
 
 

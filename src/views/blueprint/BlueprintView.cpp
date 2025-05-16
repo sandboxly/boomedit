@@ -2,8 +2,7 @@
 #include <QHBoxLayout>
 #include <QSplitter>
 #include "views/blueprint/BlueprintView.h"
-#include "edittools/SelectTool.h"
-#include "edittools/PanTool.h"
+#include "IEditTool.h"
 #include "edittools/RectangleTool.h"
 
 BlueprintView::BlueprintView(BlueprintModel* model, QWidget* parent)
@@ -85,19 +84,13 @@ BlueprintView::BlueprintView(BlueprintModel* model, QWidget* parent)
 
 void BlueprintView::onToolTriggered(QAction* act) {
     if (act == m_actSelect) {
-        SelectTool* tool = new SelectTool(m_canvas.get(), this);
-        tool->onActivate();
-        m_canvas->setActiveTool(tool);
+        m_canvas->setActiveTool(EditToolType::Select);
     }
     else if (act == m_actPan) {
-        PanTool* tool = new PanTool(m_canvas.get(), this);
-        tool->onActivate();
-        m_canvas->setActiveTool(tool);
+        m_canvas->setActiveTool(EditToolType::Pan);
     }
     else if (act == m_actRectangle) {
-        RectangleTool* tool = new RectangleTool(m_canvas.get(), this);
-        tool->onActivate();
-        m_canvas->setActiveTool(tool);
+        m_canvas->setActiveTool(EditToolType::Rectangle);
     }
 }
 

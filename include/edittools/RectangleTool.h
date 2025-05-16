@@ -11,11 +11,12 @@
 class RectangleTool : public IEditTool {
     Q_OBJECT
 public:
-    explicit RectangleTool(BlueprintCanvas* canvas,
-                           QObject*     parent = nullptr)
-        : IEditTool(parent),
+    explicit RectangleTool(BlueprintCanvas* canvas)
+        : IEditTool(canvas),
         m_canvas(canvas)
     {}
+
+    EditToolType type() override { return EditToolType::Rectangle; }
 
     void onActivate() override {
         m_canvas->setCursor(Qt::CrossCursor);
@@ -67,7 +68,6 @@ public:
         if (!m_drawing || event->button() != Qt::LeftButton) return;
         m_drawing = false;
         QRectF finalRect = m_rect.normalized();
-        m_canvas->update();
         emit rectangleCreated(finalRect);
     }
 

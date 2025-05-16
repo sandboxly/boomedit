@@ -1,8 +1,6 @@
 #ifndef SELECTTOOL_H
 #define SELECTTOOL_H
 
-#pragma once
-
 #include "IEditTool.h"
 #include "views/blueprint/BlueprintCanvas.h"
 
@@ -10,9 +8,10 @@ class SelectTool : public IEditTool {
     Q_OBJECT
 public:
     explicit SelectTool(
-        BlueprintCanvas* canvas,
-        QObject* parent = nullptr
-        ) : IEditTool(parent), m_canvas(canvas){}
+        BlueprintCanvas* canvas
+        ) : IEditTool(canvas), m_canvas(canvas){}
+
+    EditToolType type() override { return EditToolType::Select; }
 
     void onActivate() override {
         m_canvas->setCursor(Qt::CrossCursor);

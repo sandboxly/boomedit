@@ -20,7 +20,7 @@ public:
     void wheelEvent(QWheelEvent *event);
 private:
     BlueprintCanvas* m_canvas;
-    IEditTool* m_previousTool {nullptr};
+    EditToolType m_previousToolType;
     bool m_spaceHeld;
     float m_wheelDeltaAccumulator = 0.0f;
 };

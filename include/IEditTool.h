@@ -9,6 +9,12 @@
 #include <QPainter>
 #include <QObject>
 
+enum class EditToolType {
+    Select,
+    Pan,
+    Rectangle
+};
+
 class IEditTool : public QObject {
     Q_OBJECT
 public:
@@ -27,6 +33,10 @@ public:
     virtual void wheelEvent(QWheelEvent* event) = 0;
 
     virtual void paintOverlay(QPainter& painter) = 0;
+
+    virtual EditToolType type() = 0;
+private:
+    EditToolType m_type;
 };
 
 #endif // IEDITTOOL_H

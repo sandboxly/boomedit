@@ -1,4 +1,8 @@
-#include "../../../include/views/blueprint/BlueprintCanvas.h"
+#include "views/blueprint/BlueprintCanvas.h"
+#include "edittools/SelectTool.h"
+#include "edittools/PanTool.h"
+#include "edittools/RectangleTool.h"
+#include "IEditTool.h"
 #include <QPainter>
 #include <QColor>
 #include <QKeyEvent>
@@ -7,6 +11,11 @@
 BlueprintCanvas::BlueprintCanvas(BlueprintModel& model, QWidget* parent) : QWidget(parent),
     m_model(model)
 {
+    m_selectTool    = new SelectTool(this);
+    m_panTool       = new PanTool(this);
+    m_rectangleTool = new RectangleTool(this);
+    m_activeTool = m_selectTool;
+
     m_controller = std::make_unique<BlueprintCanvasController>(this);
     m_renderer   = std::make_unique<BlueprintCanvasRenderer>(this);
 
@@ -14,6 +23,10 @@ BlueprintCanvas::BlueprintCanvas(BlueprintModel& model, QWidget* parent) : QWidg
     setAutoFillBackground(false); // We paint manually
     setFocusPolicy(Qt::StrongFocus);
     setCursor(Qt::CrossCursor);
+
+    connect(m_rectangleTool,        &RectangleTool::rectangleCreated,
+            this,                   &BlueprintCanvas::onRectangleCreated);
+
 }
 
 BlueprintModel BlueprintCanvas::model() const {
@@ -97,9 +110,26 @@ IEditTool* BlueprintCanvas::activeTool() const {
     return m_activeTool;
 }
 
-void BlueprintCanvas::setActiveTool(IEditTool* tool) {
-    if (tool && (!m_activeTool || tool != m_activeTool)) {
-        m_activeTool = tool;
+void BlueprintCanvas::setActiveTool(EditToolType toolType) {
+    IEditTool* newActiveTool = nullptr;
+    switch (toolType) {
+    case EditToolType::Select:
+        newActiveTool = m_selectTool;
+        break;
+    case EditToolType::Pan:
+        newActiveTool = m_panTool;
+        break;
+    case EditToolType::Rectangle:
+        newActiveTool = m_rectangleTool;
+        break;
+    default:
+        // optionally handle unknown tool
+        break;
+    }
+    if (newActiveTool != m_activeTool) {
+        m_activeTool->onDeactivate();
+        m_activeTool = newActiveTool;
+        m_activeTool->onActivate();
         update();
     }
 }
@@ -141,4 +171,23 @@ void BlueprintCanvas::cycleGridResolution() {
     // Cycle to the next index
     m_gridResolution = gridResolutions[(index + 1) % gridResolutions.size()];
     update(); // trigger repaint
+}
+
+void BlueprintCanvas::onRectangleCreated(const QRectF& worldRect) {
+
+    printf("Gnaaaaaa Gnaaaaaaa!");
+    auto sector = std::make_shared<Sector>(0.0f, 2.5f);
+
+    auto v1 = std::make_shared<Vertex>(worldRect.topLeft().x(), worldRect.topLeft().y());
+    auto v2 = std::make_shared<Vertex>(worldRect.bottomLeft().x(), worldRect.bottomLeft().y());
+    auto v3 = std::make_shared<Vertex>(worldRect.bottomRight().x(), worldRect.bottomRight().y());
+    auto v4 = std::make_shared<Vertex>(worldRect.topRight().x(), worldRect.topRight().y());
+
+    sector->createWall(v1, v2);
+    sector->createWall(v2, v3);
+    sector->createWall(v3, v4);
+    sector->createWall(v4, v1);
+
+    m_model.level()->sectors.push_back(sector);
+    update();
 }
