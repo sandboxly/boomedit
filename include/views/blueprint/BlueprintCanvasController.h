@@ -3,11 +3,12 @@
 
 #include <QKeyEvent>
 #include <QMouseEvent>
+#include "IEditTool.h"
 
 class BlueprintCanvas;
 
-class BlueprintCanvasController
-{
+class BlueprintCanvasController : public QObject {
+    Q_OBJECT
 public:
     explicit BlueprintCanvasController(BlueprintCanvas* canvas);
 
@@ -19,10 +20,9 @@ public:
     void wheelEvent(QWheelEvent *event);
 private:
     BlueprintCanvas* m_canvas;
+    IEditTool* m_previousTool {nullptr};
+    bool m_spaceHeld;
     float m_wheelDeltaAccumulator = 0.0f;
-    bool m_isPanning = false;
-    bool m_spaceHeld = false;
-    QPoint m_lastMousePos;
 };
 
 #endif // BLUEPRINTCANVASCONTROLLER_H

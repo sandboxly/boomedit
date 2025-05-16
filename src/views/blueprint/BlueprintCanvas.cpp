@@ -60,31 +60,31 @@ void BlueprintCanvas::paintEvent(QPaintEvent *event) {
 void BlueprintCanvas::keyPressEvent(QKeyEvent *event)
 {
     m_activeTool->keyPressEvent(event);
-    // m_controller->keyPressEvent(event);
+    m_controller->keyPressEvent(event);
 }
 
 void BlueprintCanvas::keyReleaseEvent(QKeyEvent *event)
 {
     m_activeTool->keyReleaseEvent(event);
-    // m_controller->keyReleaseEvent(event);
+    m_controller->keyReleaseEvent(event);
 }
 
 void BlueprintCanvas::mousePressEvent(QMouseEvent *event)
 {
     m_activeTool->mousePressEvent(event);
-    // m_controller->mousePressEvent(event);
+    m_controller->mousePressEvent(event);
 }
 
 void BlueprintCanvas::mouseMoveEvent(QMouseEvent *event)
 {
     m_activeTool->mouseMoveEvent(event);
-    // m_controller->mouseMoveEvent(event);
+    m_controller->mouseMoveEvent(event);
 }
 
 void BlueprintCanvas::mouseReleaseEvent(QMouseEvent *event)
 {
     m_activeTool->mouseReleaseEvent(event);
-    // m_controller->mouseReleaseEvent(event);
+    m_controller->mouseReleaseEvent(event);
 }
 
 void BlueprintCanvas::wheelEvent(QWheelEvent *event)
