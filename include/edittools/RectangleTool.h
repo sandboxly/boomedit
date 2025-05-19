@@ -69,6 +69,7 @@ public:
         m_drawing = false;
         QRectF finalRect = m_rect.normalized();
         emit rectangleCreated(finalRect);
+        emit SectorShapeCompleted(finalRect);
     }
 
     // ──────── key down ────────
@@ -102,6 +103,7 @@ signals:
     void updated();
     void rectangleCreated(const QRectF& worldRect);
     void cancelled();
+    void SectorShapeCompleted(const QRectF& worldRect);
 
 private:
     BlueprintCanvas* m_canvas;

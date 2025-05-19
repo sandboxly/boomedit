@@ -14,11 +14,12 @@
 BoomEditWindow::BoomEditWindow(AppState *appState, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::BoomEditWindow)
+    , m_levelDocument(appState->currentLevelDocument())
 {
     ui->setupUi(this);
 
     // Use BlueprintView instead of dummy
-    BlueprintModel *blueprintCanvasModel = new BlueprintModel(appState->currentLevel());
+    BlueprintModel *blueprintCanvasModel = new BlueprintModel(m_levelDocument->currentLevel());
     blueprintView = new BlueprintView(blueprintCanvasModel, this);
 
     // Keep dummy for perspective for now
@@ -56,6 +57,9 @@ BoomEditWindow::BoomEditWindow(AppState *appState, QWidget *parent)
     // Start with blueprint view
     blueprintAction->setChecked(true);
     stackedWidget->setCurrentIndex(0);
+
+    // Connect levelChanged signal to onLevelChanged slot
+    connect(m_levelDocument.get(), &LevelDocument::levelChanged, this, &BoomEditWindow::onLevelChanged);
 }
 
 BoomEditWindow::~BoomEditWindow()

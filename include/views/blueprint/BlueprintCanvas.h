@@ -62,8 +62,7 @@ private:
     RectangleTool* m_rectangleTool;
 private Q_SLOTS:
     void onRectangleCreated(const QRectF& worldRect);
+    void onLevelChanged(std::shared_ptr<Level> newLevel);
 };
-
-
 
 #endif // BLUEPRINTCANVAS_H
