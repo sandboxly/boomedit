@@ -103,3 +103,8 @@ void BlueprintView::onToggleSnapToGrid(bool enabled) {
 void BlueprintView::onCycleGridResolution() {
     m_canvas->cycleGridResolution();
 }
+
+void BlueprintView::onLevelChanged(std::shared_ptr<Level> newLevel) {
+    m_model->setLevel(newLevel);
+    m_canvas->update();
+}

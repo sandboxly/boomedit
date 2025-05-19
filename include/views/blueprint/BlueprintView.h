@@ -17,6 +17,7 @@ private slots:
     void onToolTriggered(QAction*);
     void onToggleSnapToGrid(bool);
     void onCycleGridResolution();
+    void onLevelChanged(std::shared_ptr<Level> newLevel);
 private:
     BlueprintModel* m_model;
 

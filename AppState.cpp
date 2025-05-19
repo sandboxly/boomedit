@@ -2,21 +2,21 @@
 #include "include/AppState.h"
 
 AppState::AppState(
-    std::shared_ptr<Level> level,
+    std::shared_ptr<LevelDocument> levelDocument,
     QObject *parent
 ) : QObject(parent),
-    m_currentLevel(std::move(level)),
+    m_currentLevelDocument(std::move(levelDocument)),
     m_cameraPosition(0.0f, 0.0f),
     m_cameraLookAt(0.0f, -1.0f) {}
 
-std::shared_ptr<Level> AppState::currentLevel() const {
-    return m_currentLevel;
+std::shared_ptr<LevelDocument> AppState::currentLevelDocument() const {
+    return m_currentLevelDocument;
 }
 
-void AppState::setCurrentLevel(std::shared_ptr<Level> level) {
-    if (m_currentLevel != level) {
-        m_currentLevel = level;
-        emit currentLevelChanged(m_currentLevel);
+void AppState::setCurrentLevelDocument(std::shared_ptr<LevelDocument> levelDocument) {
+    if (m_currentLevelDocument != levelDocument) {
+        m_currentLevelDocument = levelDocument;
+        emit currentLevelDocumentChanged(m_currentLevelDocument);
     }
 }
 

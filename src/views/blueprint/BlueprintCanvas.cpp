@@ -27,6 +27,9 @@ BlueprintCanvas::BlueprintCanvas(BlueprintModel& model, QWidget* parent) : QWidg
     connect(m_rectangleTool,        &RectangleTool::rectangleCreated,
             this,                   &BlueprintCanvas::onRectangleCreated);
 
+    connect(m_rectangleTool,        &RectangleTool::SectorShapeCompleted,
+            this,                   &BlueprintCanvas::onSectorShapeCompleted);
+
 }
 
 BlueprintModel BlueprintCanvas::model() const {
@@ -188,5 +191,10 @@ void BlueprintCanvas::onRectangleCreated(const QRectF& worldRect) {
     sector->createWall(v4, v1);
 
     m_model.level()->sectors.push_back(sector);
+    update();
+}
+
+void BlueprintCanvas::onLevelChanged(std::shared_ptr<Level> newLevel) {
+    m_model.setLevel(newLevel);
     update();
 }

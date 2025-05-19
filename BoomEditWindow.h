@@ -6,6 +6,7 @@
 #include <QAction>
 #include <QStackedWidget>
 #include "include/AppState.h"
+#include "include/LevelDocument.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class BoomEditWindow; }
@@ -34,6 +35,7 @@ private:
     QStackedWidget *stackedWidget;
     QAction *blueprintAction;
     QAction *perspectiveAction;
+    std::shared_ptr<LevelDocument> m_levelDocument;
 };
 
 #endif // BOOMEDITWINDOW_H
