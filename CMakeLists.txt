@@ -49,6 +49,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         include/edittools/PanTool.h
         resources.qrc
         assets/styles/boom.qss
+        include/edittools/PolygonTool.h
 
     )
 # Define target properties for Android with Qt 6 as:

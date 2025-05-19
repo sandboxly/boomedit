@@ -1,0 +1,4 @@
+#ifndef POLYGONTOOL_H
+#define POLYGONTOOL_H
+
+#endif // POLYGONTOOL_H

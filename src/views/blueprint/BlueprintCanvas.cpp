@@ -175,7 +175,6 @@ void BlueprintCanvas::cycleGridResolution() {
 
 void BlueprintCanvas::onRectangleCreated(const QRectF& worldRect) {
 
-    printf("Gnaaaaaa Gnaaaaaaa!");
     auto sector = std::make_shared<Sector>(0.0f, 2.5f);
 
     auto v1 = std::make_shared<Vertex>(worldRect.topLeft().x(), worldRect.topLeft().y());
