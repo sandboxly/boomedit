@@ -3,12 +3,15 @@
 #include "edittools/PanTool.h"
 #include "edittools/RectangleTool.h"
 #include "IEditTool.h"
+#include "commands/AddSectorCommand.h"
 #include <QPainter>
 #include <QColor>
 #include <QKeyEvent>
 #include <QPainterPath>
 
-BlueprintCanvas::BlueprintCanvas(BlueprintModel& model, QWidget* parent) : QWidget(parent),
+BlueprintCanvas::BlueprintCanvas(AppState& appState, BlueprintModel& model, QWidget* parent)
+    : QWidget(parent),
+    m_appState(appState),
     m_model(model)
 {
     m_selectTool    = new SelectTool(this);
@@ -187,6 +190,7 @@ void BlueprintCanvas::onRectangleCreated(const QRectF& worldRect) {
     sector->createWall(v3, v4);
     sector->createWall(v4, v1);
 
-    m_model.level()->sectors.push_back(sector);
+    auto cmd = new AddSectorCommand(m_model.level(), sector);
+    m_appState.undo()->push(cmd);
     update();
 }

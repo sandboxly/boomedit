@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QVector2D>
+#include <QUndoStack>
 #include <memory>
 #include "models/Level.h"
 
@@ -21,6 +22,8 @@ public:
     QVector2D cameraLookAt() const;
     void setCameraLookAt(const QVector2D &lookAt);
 
+    QUndoStack* undo();
+
 signals:
     void currentLevelChanged(std::shared_ptr<Level> newLevel);
     void cameraPositionChanged(const QVector2D &newPosition);
@@ -30,6 +33,7 @@ private:
     std::shared_ptr<Level> m_currentLevel;
     QVector2D m_cameraPosition;
     QVector2D m_cameraLookAt;
+    QUndoStack m_undo;
 };
 
 #endif // APPSTATE_H

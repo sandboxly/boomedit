@@ -5,11 +5,12 @@
 #include "IEditTool.h"
 #include "edittools/RectangleTool.h"
 
-BlueprintView::BlueprintView(BlueprintModel* model, QWidget* parent)
+BlueprintView::BlueprintView(AppState* appState, BlueprintModel* model, QWidget* parent)
     : QWidget(parent),
+    m_appState(appState),
     m_model(model),
     m_toolBar(std::make_unique<BlueprintToolBar>(this)),
-    m_canvas(std::make_unique<BlueprintCanvas>(*model, this)),
+    m_canvas(std::make_unique<BlueprintCanvas>(*appState, *model, this)),
     m_inspector(std::make_unique<BlueprintInspector>(this))
 {
     // Set up tool actions

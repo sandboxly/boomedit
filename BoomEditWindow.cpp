@@ -19,7 +19,7 @@ BoomEditWindow::BoomEditWindow(AppState *appState, QWidget *parent)
 
     // Use BlueprintView instead of dummy
     BlueprintModel *blueprintCanvasModel = new BlueprintModel(appState->currentLevel());
-    blueprintView = new BlueprintView(blueprintCanvasModel, this);
+    blueprintView = new BlueprintView(appState, blueprintCanvasModel, this);
 
     // Keep dummy for perspective for now
     perspectiveView = new QWidget(this);
@@ -29,7 +29,14 @@ BoomEditWindow::BoomEditWindow(AppState *appState, QWidget *parent)
     perspectiveLayout->addWidget(perspectiveLabel);
     perspectiveView->setLayout(perspectiveLayout);
 
-    // Actions
+    // Common Actions
+    m_undoAction = new QAction(tr("&Undo"), this);
+    m_undoAction->setShortcut(QKeySequence::Undo);
+    m_undoAction->setEnabled(true);
+    connect(m_undoAction,   &QAction::triggered,
+            this,           &BoomEditWindow::undo);
+
+    // View Mode Actions
     blueprintAction = new QAction("Blueprint", this);
     blueprintAction->setCheckable(true);
 

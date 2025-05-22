@@ -19,6 +19,9 @@ public:
     explicit BoomEditWindow(AppState *appState, QWidget *parent = nullptr);
     ~BoomEditWindow();
 
+public slots:
+    void undo();
+
 private slots:
     void switchToBlueprint();
     void switchToPerspective();
@@ -32,6 +35,7 @@ private:
     QWidget *blueprintView;
     QWidget *perspectiveView;
     QStackedWidget *stackedWidget;
+    QAction* m_undoAction;
     QAction *blueprintAction;
     QAction *perspectiveAction;
 };

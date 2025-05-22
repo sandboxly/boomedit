@@ -12,12 +12,13 @@ class BlueprintModel;
 class BlueprintView : public QWidget {
     Q_OBJECT
 public:
-    explicit BlueprintView(BlueprintModel* model, QWidget* parent = nullptr);
+    explicit BlueprintView(AppState* appState, BlueprintModel* model, QWidget* parent = nullptr);
 private slots:
     void onToolTriggered(QAction*);
     void onToggleSnapToGrid(bool);
     void onCycleGridResolution();
 private:
+    AppState* m_appState;
     BlueprintModel* m_model;
 
     std::unique_ptr<BlueprintToolBar>   m_toolBar;

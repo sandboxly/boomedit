@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QVector2D>
 #include <QRectF>
+#include "AppState.h"
 #include "BlueprintModel.h"
 #include "BlueprintCanvasController.h"
 #include "BlueprintCanvasRenderer.h"
@@ -17,7 +18,7 @@ class SelectTool;
 class BlueprintCanvas : public QWidget {
     Q_OBJECT
 public:
-    explicit BlueprintCanvas(BlueprintModel& model, QWidget* parent = nullptr);
+    explicit BlueprintCanvas(AppState& appState, BlueprintModel& model, QWidget* parent = nullptr);
 
     BlueprintModel model() const;
 
@@ -49,6 +50,7 @@ protected:
 
 private:
     // private fields
+    AppState& m_appState;
     BlueprintModel& m_model;
     std::unique_ptr<BlueprintCanvasController> m_controller;
     std::unique_ptr<BlueprintCanvasRenderer> m_renderer;

@@ -41,3 +41,7 @@ void AppState::setCameraLookAt(const QVector2D &lookAt) {
         emit cameraLookAtChanged(m_cameraLookAt);
     }
 }
+
+QUndoStack* AppState::undo() {
+    return &m_undo;
+}

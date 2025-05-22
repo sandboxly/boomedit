@@ -88,10 +88,13 @@ public:
     // ──────── overlay paint ────────
     void paintOverlay(QPainter& p) override {
         if (!m_drawing) return;
-        p.setPen(QPen(Qt::yellow,2,Qt::DashLine));
+        p.setPen(QPen(Qt::yellow,2,Qt::SolidLine));
         QPointF tl = m_canvas->worldToScreen(m_rect.topLeft());
         QPointF br = m_canvas->worldToScreen(m_rect.bottomRight());
-        p.drawRect(QRectF(tl, br).normalized());
+        auto rect = QRectF(tl, br).normalized();
+        p.drawRect(rect);
+        QBrush fillBrush(QColor(255, 255, 200, 64));
+        p.fillRect(rect, fillBrush);
     }
 
     void setSnapToGrid(bool enabled) {
