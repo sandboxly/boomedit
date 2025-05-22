@@ -19,9 +19,6 @@ public:
     explicit BoomEditWindow(AppState *appState, QWidget *parent = nullptr);
     ~BoomEditWindow();
 
-public slots:
-    void undo();
-
 private slots:
     void switchToBlueprint();
     void switchToPerspective();

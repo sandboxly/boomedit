@@ -33,8 +33,8 @@ BoomEditWindow::BoomEditWindow(AppState *appState, QWidget *parent)
     m_undoAction = new QAction(tr("&Undo"), this);
     m_undoAction->setShortcut(QKeySequence::Undo);
     m_undoAction->setEnabled(true);
-    connect(m_undoAction,   &QAction::triggered,
-            this,           &BoomEditWindow::undo);
+    // connect(m_undoAction,   &QAction::triggered,
+    //        this,           &BoomEditWindow::undo);
 
     // View Mode Actions
     blueprintAction = new QAction("Blueprint", this);
